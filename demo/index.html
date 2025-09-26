@@ -201,7 +201,6 @@
     <script src="./dom-shield.umd.js"></script>
 
     <script>
-    // let securityObserver = null;
         let cspMonitor = null;
 
         function testBasicFunction() {
@@ -214,34 +213,6 @@
                 console.error('❌ Error: DOM Shield no está disponible');
             }
         }
-
-    // function testSecurityObserver() {
-    //     console.log('%c🛡️ DOM Shield Demo - Security Observer', 'color: #FF6B6B; font-size: 18px; font-weight: bold;');
-    //     if (typeof DOMShield !== 'undefined' && DOMShield.createSecurityObserver) {
-    //         if (securityObserver) {
-    //             securityObserver.disconnect();
-    //         }
-    //         securityObserver = DOMShield.createSecurityObserver();
-    //         console.log('%c✅ ¡Observador de seguridad iniciado!', 'color: #28a745; font-weight: bold;');
-    //     } else {
-    //         console.error('❌ Error: createSecurityObserver no está disponible');
-    //     }
-    // }
-
-    // function testSpecificRules() {
-    //     console.log('%c🛡️ DOM Shield Demo - Specific Rules', 'color: #FFA500; font-size: 18px; font-weight: bold;');
-    //     if (typeof DOMShield !== 'undefined' && DOMShield.createSecurityObserver) {
-    //         if (securityObserver) {
-    //             securityObserver.disconnect();
-    //         }
-    //         securityObserver = DOMShield.createSecurityObserver({
-    //             rulesToApply: ['ParanaUserScript']
-    //         });
-    //         console.log('%c✅ ¡Observador con reglas específicas iniciado!', 'color: #28a745; font-weight: bold;');
-    //     } else {
-    //         console.error('❌ Error: createSecurityObserver no está disponible');
-    //     }
-    // }
 
         function addSuspiciousContent() {
             console.log('%c⚠️ DOM Shield Demo - Adding Suspicious Content', 'color: #DC143C; font-size: 18px; font-weight: bold;');

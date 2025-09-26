@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from "node:url";
 export default defineConfig({
   build: {
     lib: {
-      entry: path.resolve(fileURLToPath(new URL(".", import.meta.url)), "src/index.ts"),
+      entry: path.resolve(fileURLToPath(new URL(".", import.meta.url)), "src/main.ts"),
       name: "DOMShield",
       formats: ["es", "cjs", "umd"],
       fileName: (format) => `dom-shield.${format}.js`,
