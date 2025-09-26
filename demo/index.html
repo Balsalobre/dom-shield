@@ -125,6 +125,9 @@
                 <button onclick="testSpecificRules()">
                     Reglas Específicas <span class="emoji">🔍</span>
                 </button>
+                <button id="live-detection-btn" onclick="toggleLiveDetection()">
+                    Iniciar Vigilancia <span class="emoji">📡</span>
+                </button>
                 <button onclick="addSuspiciousContent()">
                     Añadir Contenido Sospechoso <span class="emoji">⚠️</span>
                 </button>
@@ -186,7 +189,7 @@
 
             <h3>🎯 Reglas de Seguridad:</h3>
             <ul>
-                <li><code>ParanaUserScript</code>: Detecta elementos .gemini-box</li>
+                <li><code>ElementDetectionRule</code>: Detecta elementos por selector (ej: .gemini-box)</li>
                 <li><code>SuspiciousScripts</code>: Analiza dominios sospechosos</li>
                 <li><code>IframeDetection</code>: Lista iframes encontrados</li>
             </ul>
@@ -282,6 +285,36 @@
                 }
             } else {
                 console.warn('⚠️ CSP Monitor no está inicializado. Haz clic en "Iniciar CSP Monitor" primero.');
+            }
+        }
+
+        function testSpecificRules() {
+            console.log('%c🧪 Probando reglas específicas...', 'color: #9932CC; font-size: 18px; font-weight: bold;');
+
+            const { RuleEngine, ElementDetectionRule } = DOMShield;
+            const ruleEngine = new RuleEngine();
+
+            // Configura y registra la regla para detectar '.gemini-box'
+            const paranaRule = new ElementDetectionRule('.gemini-box');
+            ruleEngine.register(paranaRule);
+
+            ruleEngine.execute();
+        }
+
+        let liveRule = null;
+        function toggleLiveDetection() {
+            const button = document.getElementById('live-detection-btn');
+            const { LiveElementDetectionRule } = DOMShield;
+
+            if (liveRule) {
+                liveRule.disconnect();
+                liveRule = null;
+                button.innerHTML = 'Iniciar Vigilancia <span class="emoji">📡</span>';
+            } else {
+                console.log('%c📡 Iniciando vigilancia en tiempo real para .gemini-box...', 'color: #007bff; font-size: 18px; font-weight: bold;');
+                liveRule = new LiveElementDetectionRule('.gemini-box');
+                liveRule.execute();
+                button.innerHTML = 'Detener Vigilancia <span class="emoji">🛑</span>';
             }
         }
 
