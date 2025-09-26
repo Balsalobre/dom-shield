@@ -1,0 +1,37 @@
+{
+  "name": "dom-shield",
+  "private": false,
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/dom-shield.cjs.js",
+  "module": "./dist/dom-shield.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/dom-shield.es.js",
+      "require": "./dist/dom-shield.cjs.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build",
+    "demo:build": "pnpm build && cp dist/dom-shield.umd.js demo/",
+    "demo:docker": "./deploy.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "typescript": "~5.8.3",
+    "vite": "npm:rolldown-vite@7.1.12"
+  },
+  "pnpm": {
+    "overrides": {
+      "vite": "npm:rolldown-vite@7.1.12"
+    }
+  }
+}

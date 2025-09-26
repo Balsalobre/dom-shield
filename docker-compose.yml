@@ -1,0 +1,10 @@
+services:
+  dom-shield-demo:
+    build: .
+    container_name: dom-shield-demo
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
