@@ -11,22 +11,21 @@ export type DOMShieldConfig = {
 
 export const DOMShield = {
   init(config: DOMShieldConfig): void {
-    if (config.csp) {
-      const cspMonitor = createCSPMonitor(config.csp.endpoint);
+    config.csp && this.setupCSP(config.csp);
 
-      if (config.csp.enable) {
-        cspMonitor.enableMonitoring();
-        console.log("✅ CSP Monitoring enabled");
-      } else {
-        console.log("⏸️ CSP Monitoring configured but disabled");
-      }
-    }
-
-    if (config.integrity) {
-      runIntegrityRules(config.integrity);
-      console.log(`✅ ${config.integrity.length} integrity rules executed`);
-    }
+    config.integrity && this.setupIntegrity(config.integrity);
 
     console.log("🛡️ DOM Shield initialized successfully");
+  },
+
+  setupCSP(cspConfig: DOMShieldConfig['csp']): void {
+    const monitor = createCSPMonitor(cspConfig?.endpoint);
+    cspConfig?.enable && monitor.enableMonitoring();
+    console.log(cspConfig?.enable ? "✅ CSP Monitoring enabled" : "⏸️ CSP Monitoring configured but disabled");
+  },
+
+  setupIntegrity(integrityConfig: RuleConfig[]): void {
+    runIntegrityRules(integrityConfig);
+    console.log(`✅ ${integrityConfig.length} integrity rules executed`);
   }
 };
