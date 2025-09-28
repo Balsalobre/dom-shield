@@ -3,8 +3,14 @@ import type { Rule } from './types';
 // Observer específico para .gemini-box
 class GeminiBoxObserver {
     private observer: MutationObserver | null = null;
+    private isStarted: boolean = false;
 
     start() {
+        if (this.isStarted) {
+            console.log('🔍 GeminiBoxObserver: Ya está iniciado');
+            return;
+        }
+
         this.observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'childList') {
@@ -26,15 +32,23 @@ class GeminiBoxObserver {
             subtree: true,
             attributes: false
         });
+
+        this.isStarted = true;
+        console.log('🔍 GeminiBoxObserver: Iniciado para detectar elementos .gemini-box');
     }
 
     stop() {
         if (this.observer) {
             this.observer.disconnect();
             this.observer = null;
+            this.isStarted = false;
+            console.log('🛑 GeminiBoxObserver: Detenido');
         }
     }
 }
+
+// Instancia global del observer
+const geminiBoxObserver = new GeminiBoxObserver();
 
 // Security rules for DOM Shield
 export const securityRules: Rule[] = [
@@ -42,9 +56,7 @@ export const securityRules: Rule[] = [
         name: 'GeminiBoxObserver',
         description: 'Observer que detecta elementos .gemini-box añadidos dinámicamente al DOM',
         execute: () => {
-            const observer = new GeminiBoxObserver();
-            observer.start();
-            console.log('🔍 GeminiBoxObserver: Iniciado para detectar elementos .gemini-box');
+            geminiBoxObserver.start();
         }
     },
     {
@@ -201,6 +213,20 @@ export function testSecurityObserver() {
     
     // Guardar referencia global para poder detenerlo después
     (window as any).domShieldObserver = securityObserver;
+}
+
+export function testGeminiBoxObserver() {
+    console.log('%c🔍 GeminiBox Observer Test - Solo detecta .gemini-box', 'color: #FF6B6B; font-size: 18px; font-weight: bold;');
+    
+    geminiBoxObserver.start();
+    
+    console.log('%c✅ GeminiBox Observer iniciado', 'color: #28a745; font-weight: bold;');
+    console.log('🔍 Este observer solo detectará elementos con clase .gemini-box');
+    console.log('⚠️ Prueba añadir un elemento .gemini-box para ver la detección');
+    console.log('💡 Usa: const div = document.createElement("div"); div.className = "gemini-box"; document.body.appendChild(div);');
+    
+    // Guardar referencia global para poder detenerlo después
+    (window as any).geminiBoxObserver = geminiBoxObserver;
 }
 
 

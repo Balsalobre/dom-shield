@@ -119,8 +119,18 @@
                 <button onclick="testSpecificRules()">
                     Reglas Específicas <span class="emoji">🔍</span>
                 </button>
-                <button onclick="addSuspiciousContent()">
-                    Añadir Contenido Sospechoso <span class="emoji">⚠️</span>
+                <button onclick="testGeminiBoxObserver()">
+                    Solo GeminiBox Observer <span class="emoji">📦</span>
+                </button>
+            </div>
+
+            <div class="button-group">
+                <h4>🧪 Pruebas de Elementos</h4>
+                <button onclick="addGeminiBox()">
+                    Añadir .gemini-box <span class="emoji">📦</span>
+                </button>
+                <button onclick="addIframe()">
+                    Añadir iframe <span class="emoji">🖼️</span>
                 </button>
             </div>
 
@@ -213,22 +223,38 @@
             }
         }
 
-        function addSuspiciousContent() {
-            console.log('%c⚠️ DOM Shield Demo - Adding Suspicious Content', 'color: #DC143C; font-size: 18px; font-weight: bold;');
+        function testGeminiBoxObserver() {
+            if (typeof DOMShield !== 'undefined' && DOMShield.testGeminiBoxObserver) {
+                DOMShield.testGeminiBoxObserver();
+            } else {
+                console.error('❌ Error: DOMShield.testGeminiBoxObserver no está disponible');
+            }
+        }
+
+        function addGeminiBox() {
+            console.log('%c📦 DOM Shield Demo - Adding .gemini-box Element', 'color: #FF6B6B; font-size: 18px; font-weight: bold;');
 
             const suspiciousDiv = document.createElement('div');
             suspiciousDiv.className = 'gemini-box';
-            suspiciousDiv.textContent = '⚠️ Contenido sospechoso detectado';
+            suspiciousDiv.textContent = '⚠️ Elemento .gemini-box detectado';
             suspiciousDiv.style.cssText = 'background: #ff4444; color: white; padding: 10px; margin: 10px 0; border-radius: 5px; border: 2px solid #cc0000;';
 
             document.querySelector('.container').appendChild(suspiciousDiv);
 
+            console.log('%c📦 Elemento .gemini-box añadido - el GeminiBoxObserver debería detectarlo', 'color: #FFA500; font-weight: bold;');
+        }
+
+        function addIframe() {
+            console.log('%c🖼️ DOM Shield Demo - Adding iframe Element', 'color: #4ECDC4; font-size: 18px; font-weight: bold;');
+
             const iframe = document.createElement('iframe');
             iframe.src = 'about:blank';
-            iframe.style.cssText = 'width: 100px; height: 50px; border: 2px solid yellow; margin: 10px 0;';
+            iframe.style.cssText = 'width: 200px; height: 100px; border: 2px solid #4ECDC4; margin: 10px 0; border-radius: 5px;';
+            iframe.title = 'Iframe de prueba';
+
             document.querySelector('.container').appendChild(iframe);
 
-            console.log('%c⚠️ Contenido sospechoso añadido - el observador debería detectarlo', 'color: #FFA500; font-weight: bold;');
+            console.log('%c🖼️ Iframe añadido - el IframeDetection debería detectarlo', 'color: #4ECDC4; font-weight: bold;');
         }
 
         function initCSPMonitor() {
