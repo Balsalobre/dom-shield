@@ -12,9 +12,9 @@ declare global {
     readonly sample: string;
     readonly statusCode: number;
     readonly violatedDirective: string;
-    readonly lineNumber?: number;
-    readonly columnNumber?: number;
-    readonly sourceFile?: string;
+    readonly lineNumber: number;
+    readonly columnNumber: number;
+    readonly sourceFile: string;
   }
 }
 

@@ -3,206 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOM Shield - Demostración</title>
+    <title>🛡️ DOM Shield Demo - Casos Específicos</title>
     <link rel="stylesheet" href="styles.css">
+    <meta http-equiv="Content-Security-Policy-Report-Only" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'self'; report-uri /dom-shield-report;">
 </head>
 <body>
     <div class="container">
-        <h1>🛡️ DOM Shield</h1>
-        <p class="subtitle">Sistema completo de seguridad web</p>
+        <h1>🛡️ DOM Shield Demo</h1>
+        <p class="subtitle">Casos de Uso Específicos - Solo 2 Pruebas</p>
+        
+        <!-- Status Panel -->
+        <div class="status-panel">
+            <h3>📊 Estado del Sistema</h3>
+            <p><strong>DOM Shield:</strong> <span id="shield-status">Inicializando...</span></p>
+            <p><strong>Endpoint API:</strong> <span id="api-endpoint">/dom-shield-report</span></p>
+        </div>
 
+        <!-- Test Cases -->
         <div class="demo-section">
-            <h2>🚀 Funcionalidades de DOM Shield</h2>
-            <p>Prueba todas las funcionalidades organizadas por categoría:</p>
-
-            <div class="button-group">
-                <h4>🛡️ Seguridad DOM</h4>
-                <button onclick="testSpecificRules()">
-                    Reglas Específicas <span class="emoji">🔍</span>
-                </button>
-                <button onclick="addSuspiciousContent()">
-                    Añadir Contenido Sospechoso <span class="emoji">⚠️</span>
+            <h2>🧪 Casos de Prueba Específicos</h2>
+            <p>Estos son los únicos 2 casos que necesitas probar:</p>
+            
+            <div class="test-case">
+                <h3>1. Elemento No Permitido en Live (.dynamic-content)</h3>
+                <p>Prueba la detección de elementos sospechosos añadidos dinámicamente al contenedor .dynamic-content</p>
+                <button onclick="testUnauthorizedElement()" class="test-button">
+                    🚫 Añadir Elemento No Permitido
                 </button>
             </div>
 
-            <div class="button-group">
-                <h4>🛡️ Monitor CSP</h4>
-                <button onclick="checkCSPStatus()">
-                    Estado CSP <span class="emoji">📊</span>
-                </button>
-                <button onclick="triggerInlineScriptViolation()">
-                    Script Inline <span class="emoji">📜</span>
-                </button>
-                <button onclick="triggerExternalScriptViolation()">
-                    Script Externo <span class="emoji">🌐</span>
-                </button>
-                <button onclick="triggerEvalViolation()">
-                    Eval() <span class="emoji">⚡</span>
-                </button>
-                <button onclick="triggerImageViolation()">
-                    Imagen Externa <span class="emoji">🖼️</span>
-                </button>
-                <button onclick="triggerFetchViolation()">
-                    Fetch/XMLHttpRequest <span class="emoji">📡</span>
-                </button>
-                <button onclick="triggerWebSocketViolation()">
-                    WebSocket <span class="emoji">🔌</span>
+            <div class="test-case">
+                <h3>2. Fetch No Permitido</h3>
+                <p>Prueba la detección de peticiones HTTP a dominios no autorizados</p>
+                <button onclick="testUnauthorizedFetch()" class="test-button">
+                    🚫 Hacer Fetch No Permitido
                 </button>
             </div>
         </div>
 
+        <!-- Dynamic Content Container -->
+        <div class="content-area">
+            <h3>📦 Contenedor de Contenido Dinámico</h3>
+            <p>Los elementos añadidos aquí serán detectados automáticamente:</p>
+            <div class="dynamic-content" id="dynamic-container" style="padding: 15px; background: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 8px; min-height: 100px;">
+                <p><em>Contenedor vacío - Los elementos añadidos aquí serán monitoreados</em></p>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="demo-instructions">
+            <h3>📋 Instrucciones</h3>
+            <ol>
+                <li>Abre las <strong>DevTools</strong> (F12) y ve a la pestaña <strong>Console</strong></li>
+                <li>Haz clic en los botones de prueba</li>
+                <li>Observa los <strong>logs de la librería</strong> en la consola</li>
+                <li>Verifica las <strong>llamadas al endpoint</strong> en la pestaña Network</li>
+            </ol>
+        </div>
+
+        <!-- Version Info -->
         <div class="version-info">
-            <p>DOM Shield v0.0.1 | Construido con ❤️</p>
-            <p>🐳 Docker + nginx + TypeScript + Vite</p>
+            <p>🛡️ DOM Shield v1.0.0 | Demo Simplificado | Endpoint: /dom-shield-report</p>
         </div>
     </div>
 
+    <!-- Load DOM Shield Library -->
+    <script src="dom-shield.umd.js"></script>
+    
+    <script>
+        // Global variables
+        let cspSentinel = null;
+        let domSentinel = null;
+        let isInitialized = false;
 
-        <script src="./dom-shield.umd.js"></script>
-        <script>
-        const integrityRules = [
-            { type: "element", selector: ".gemini-box" },
-            { type: "iframe" },
-            { type: "live-element", selector: ".gemini-box" },
-            { type: "scripts", domains: ["suspicious-domain.example"] },
-        ];
-
-
-
-
-        function addSuspiciousContent() {
-            const suspiciousDiv = document.createElement('div');
-            suspiciousDiv.className = 'gemini-box';
-            suspiciousDiv.textContent = '⚠️ Contenido sospechoso detectado';
-            suspiciousDiv.style.cssText = 'background: #ff4444; color: white; padding: 10px; margin: 10px 0; border-radius: 5px; border: 2px solid #cc0000;';
-            document.querySelector('.container').appendChild(suspiciousDiv);
-
-            const iframe = document.createElement('iframe');
-            iframe.src = 'about:blank';
-            iframe.style.cssText = 'width: 100px; height: 50px; border: 2px solid yellow; margin: 10px 0;';
-            document.querySelector('.container').appendChild(iframe);
-            console.log('%c⚠️ Contenido sospechoso añadido', 'color: #FFA500; font-weight: bold;');
+        // Update status display
+        function updateStatus() {
+            document.getElementById('shield-status').textContent = isInitialized ? 'Activo' : 'Inicializando...';
         }
 
-
-
-        // Funciones para probar diferentes tipos de violaciones CSP
-
-        function triggerInlineScriptViolation() {
-            console.log('%c📜 Probando violación de script inline...', 'color: #FF6B6B; font-weight: bold;');
-            const script = document.createElement('script');
-            script.innerHTML = 'console.log("Script inline - esto debería violar CSP");';
-            document.head.appendChild(script);
-        }
-
-        function triggerExternalScriptViolation() {
-            console.log('%c🌐 Probando violación de script externo...', 'color: #4ECDC4; font-weight: bold;');
-            const externalScript = document.createElement('script');
-            externalScript.src = 'https://suspicious-domain.example/malicious.js';
-            document.head.appendChild(externalScript);
-        }
-
-        function triggerEvalViolation() {
-            console.log('%c⚡ Probando violación de eval()...', 'color: #FFD93D; font-weight: bold;');
+        // Initialize DOM Shield automatically
+        async function initializeDOMShield() {
             try {
-                eval('console.log("Eval() - esto debería violar CSP");');
-            } catch (e) {
-                console.log('Eval bloqueado por CSP:', e.message);
+                console.log('🚀 Iniciando DOM Shield...');
+                console.log('🔍 DOMShield object:', DOMShield);
+                console.log('🔍 DOMShield.init:', typeof DOMShield.init);
+                
+                const config = {
+                    csp: {
+                        endpoint: '/dom-shield-report',
+                        enable: true,
+                        runAnalysis: true,
+                        directives: [
+                            "default-src 'self'",
+                            "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+                            "style-src 'self' 'unsafe-inline'",
+                            "img-src 'self' data:",
+                            "connect-src 'self'",
+                            "frame-src 'self'"
+                        ],
+                        domains: ['malicious.com', 'evil.org', 'suspicious.net']
+                    },
+                    integrity: {
+                        selectors: ['script[src*="evil.com"]', 'iframe[src*="malicious.org"]', '.suspicious-element'],
+                        suspiciousDomains: ['evil.com', 'malicious.org', 'phish.com'],
+                        liveSelectors: ['.dynamic-content']
+                    }
+                };
+
+                console.log('📋 Configuración:', config);
+                console.log('🔄 Llamando a DOMShield.init...');
+                
+                await DOMShield.init(config);
+                
+                console.log('🔄 Obteniendo sentinels...');
+                cspSentinel = DOMShield.getCSPSentinel();
+                domSentinel = DOMShield.getDOMSentinel();
+                isInitialized = true;
+                
+                updateStatus();
+                console.log('✅ DOM Shield inicializado y activo');
+                console.log('CSP Sentinel:', cspSentinel);
+                console.log('DOM Sentinel:', domSentinel);
+                
+            } catch (error) {
+                console.error('❌ Error al inicializar DOM Shield:', error);
+                console.error('❌ Stack trace:', error.stack);
+                updateStatus();
             }
         }
 
-        function triggerImageViolation() {
-            console.log('%c🖼️ Probando violación de imagen externa...', 'color: #FFB6C1; font-weight: bold;');
-            const img = document.createElement('img');
-            img.src = 'https://suspicious-domain.example/malicious-image.jpg';
-            img.alt = 'Imagen externa bloqueada';
-            img.style.cssText = 'width: 100px; height: 100px; border: 2px solid red;';
-            document.querySelector('.container').appendChild(img);
+        // TEST CASE 1: Unauthorized Element in Live (.dynamic-content)
+        function testUnauthorizedElement() {
+            console.log('🚫 CASO 1: Añadiendo elemento no permitido a .dynamic-content...');
+            
+            // Create a suspicious element that should be detected by the library
+            const suspiciousElement = document.createElement('div');
+            suspiciousElement.className = 'suspicious-element';
+            suspiciousElement.innerHTML = '<strong>⚠️ ELEMENTO SOSPECHOSO DETECTADO</strong><br>Este elemento fue añadido dinámicamente y debería ser detectado por la librería';
+            suspiciousElement.style.cssText = 'background: #ff6b6b; color: white; padding: 15px; margin: 10px 0; border-radius: 8px; border: 2px solid #ff5252;';
+            
+            // Add to the dynamic content container - the library should detect this automatically
+            const dynamicContainer = document.getElementById('dynamic-container');
+            dynamicContainer.appendChild(suspiciousElement);
+            
+            console.log('✅ Elemento añadido - La librería debería detectarlo automáticamente');
         }
 
-        function triggerFetchViolation() {
-            console.log('%c📡 Probando violación de fetch/XMLHttpRequest...', 'color: #87CEEB; font-weight: bold;');
-            // Fetch
-            fetch('https://suspicious-domain.example/api/data')
-                .then(response => response.text())
-                .then(data => console.log('Fetch exitoso:', data))
-                .catch(error => console.log('Fetch bloqueado por CSP:', error.message));
-
-            // XMLHttpRequest
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', 'https://suspicious-domain.example/api/data');
-            xhr.onload = () => console.log('XHR exitoso:', xhr.responseText);
-            xhr.onerror = () => console.log('XHR bloqueado por CSP');
-            xhr.send();
+        // TEST CASE 2: Unauthorized Fetch Request
+        function testUnauthorizedFetch() {
+            console.log('🚫 CASO 2: Intentando fetch no permitido...');
+            
+            // Try to make a fetch to an unauthorized domain - CSP should block this and the library should detect it
+            fetch('https://evil.com/api/steal-data')
+                .then(response => {
+                    console.log('⚠️ Fetch exitoso (inesperado):', response);
+                })
+                .catch(error => {
+                    console.log('✅ Fetch bloqueado por CSP (esperado):', error.message);
+                });
+            
+            console.log('✅ Petición fetch enviada - La librería debería detectar la violación automáticamente');
         }
 
-        function triggerWebSocketViolation() {
-            console.log('%c🔌 Probando violación de WebSocket...', 'color: #DDA0DD; font-weight: bold;');
-            try {
-                const ws = new WebSocket('wss://suspicious-domain.example/ws');
-                ws.onopen = () => console.log('WebSocket conectado');
-                ws.onerror = () => console.log('WebSocket bloqueado por CSP');
-            } catch (e) {
-                console.log('WebSocket bloqueado por CSP:', e.message);
-            }
-        }
-
-        function checkCSPStatus() {
-            const monitor = DOMShield.getCSPMonitor();
-            if (monitor) {
-                const status = monitor.getMonitoringStatus();
-                console.log('%c📊 Estado del CSP Monitor:', 'color: #1E90FF; font-weight: bold;');
-                console.table(status);
-                const queuedReports = monitor.getQueuedReports();
-                if (queuedReports.length > 0) {
-                    console.log('%c📋 Reportes en cola:', 'color: #FFA500; font-weight: bold;');
-                    queuedReports.forEach((report, index) => {
-                        console.log(`${index + 1}.`, report);
-                    });
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🟢 DOM Content Loaded');
+            updateStatus();
+            
+            // Función para verificar si DOMShield está disponible
+            function waitForDOMShield() {
+                console.log('🔍 Verificando disponibilidad de DOMShield...');
+                console.log('typeof DOMShield:', typeof DOMShield);
+                console.log('window.DOMShield:', window.DOMShield);
+                console.log('globalThis.DOMShield:', globalThis.DOMShield);
+                
+                if (typeof DOMShield !== 'undefined') {
+                    console.log('✅ DOMShield detectado, iniciando...');
+                    initializeDOMShield();
                 } else {
-                    console.log('%c📭 No hay reportes en cola', 'color: #28a745;');
+                    console.log('⏳ Esperando a que DOMShield se cargue...');
+                    setTimeout(waitForDOMShield, 100);
                 }
-            } else {
-                console.warn('⚠️ CSP Monitor no está inicializado. Haz clic en "Iniciar CSP Monitor" primero.');
             }
-        }
-
-        function testSpecificRules() {
-            console.log('%c🔍 Reglas de integridad configuradas:', 'color: #9932CC; font-weight: bold;');
-            console.log(integrityRules);
-        }
-
-        let liveDetectionActive = false;
-        function toggleLiveDetection() {
-            if (!liveDetectionActive) {
-                DOMShield.setupIntegrity([
-                    { type: "live-element", selector: ".gemini-box" }
-                ]);
-                liveDetectionActive = true;
-                document.getElementById('live-detection-btn').innerHTML = 'Detener Vigilancia <span class="emoji">�</span>';
-                console.log('%c📡 Vigilancia en tiempo real activada para .gemini-box', 'color: #007bff; font-weight: bold;');
-            } else {
-                // No hay método para detener, solo informativo
-                liveDetectionActive = false;
-                document.getElementById('live-detection-btn').innerHTML = 'Iniciar Vigilancia <span class="emoji">�</span>';
-                console.log('%c🛑 Vigilancia en tiempo real desactivada', 'color: #DC143C; font-weight: bold;');
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', async function() {
-            await DOMShield.init({
-                csp: { 
-                    endpoint: "/csp-violations", 
-                    enable: true,
-                    maxQueueSize: 100,
-                    runAnalysis: true,
-                    directives: ["default-src", "script-src", "style-src"],
-                    domains: ["trusted.com", "cdn.example.com"]
-                },
-                integrity: integrityRules
-            });
-            console.log('%c🌟 ¡Bienvenido a DOM Shield v0.0.1!', 'color: #FF6B6B; font-size: 20px; font-weight: bold;');
+            
+            // Esperar a que el script UMD se cargue completamente
+            setTimeout(waitForDOMShield, 100);
         });
-        </script>
+
+        // Add CSS for test cases
+        const style = document.createElement('style');
+        style.textContent = `
+            .test-case {
+                background: #f8f9fa;
+                border: 1px solid #e9ecef;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 15px 0;
+            }
+            .test-case h3 {
+                color: #495057;
+                margin: 0 0 10px 0;
+            }
+            .test-button {
+                background: #dc3545;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+                margin: 10px 0;
+                transition: background-color 0.3s;
+            }
+            .test-button:hover {
+                background: #c82333;
+            }
+            .demo-instructions {
+                background: #e3f2fd;
+                border: 1px solid #bbdefb;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 20px 0;
+            }
+            .demo-instructions ol {
+                margin: 10px 0;
+                padding-left: 20px;
+            }
+            .demo-instructions li {
+                margin: 8px 0;
+                line-height: 1.5;
+            }
+        `;
+        document.head.appendChild(style);
+
+        console.log('✅ Script cargado correctamente');
+        console.log('DOMShield disponible al cargar:', typeof DOMShield);
+    </script>
 </body>
 </html>

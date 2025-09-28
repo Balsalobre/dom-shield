@@ -17,6 +17,8 @@ export default defineConfig({
         globals: {
           rrweb: "rrweb",
         },
+        // Ensure proper UMD export
+        exports: "named",
       },
     },
   },
