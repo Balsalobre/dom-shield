@@ -22,12 +22,18 @@
     "preview": "vite preview",
     "prepublishOnly": "npm run build",
     "demo:build": "pnpm build && cp dist/dom-shield.umd.js demo/",
-    "demo:docker": "./deploy.sh"
+    "demo:docker": "./deploy.sh",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run"
   },
   "devDependencies": {
-    "@types/node": "^24.5.2",
+    "@types/node": "24.5.2",
+    "@vitest/ui": "2.1.8",
+    "jsdom": "25.0.1",
     "typescript": "~5.8.3",
-    "vite": "npm:rolldown-vite@7.1.12"
+    "vite": "npm:rolldown-vite@7.1.12",
+    "vitest": "2.1.8"
   },
   "pnpm": {
     "overrides": {

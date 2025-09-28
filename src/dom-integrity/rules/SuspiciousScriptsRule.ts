@@ -1,4 +1,5 @@
-import type { Rule, SuspiciousScriptsParams } from "../types/rules";
+import type { Rule } from "../../core/types/rules";
+import type { SuspiciousScriptsParams } from "../types/dom-integrity-params.types";
 
 class SuspiciousScriptsRule implements Rule<SuspiciousScriptsParams> {
   public readonly rule: string;

@@ -1,3 +1,4 @@
+// Legacy CSP Monitor - Deprecated, use CSPSentinel instead
 import type {
   CSPMonitorConfig,
   CSPMonitorStatus,
@@ -5,7 +6,10 @@ import type {
   CSPViolationReport,
 } from "./types/csp";
 
-class CSPMonitor {
+/**
+ * @deprecated Use CSPSentinel instead. This class is kept for backward compatibility.
+ */
+export class CSPMonitor {
   private readonly config: CSPMonitorConfig;
   private isEnabled: boolean = false;
   private reportQueue: readonly CSPReportData[] = [];
@@ -18,9 +22,13 @@ class CSPMonitor {
     this.initializeSecurityMonitoring();
   }
 
+  /**
+   * @deprecated Use CSPSentinel.startMonitoring() instead
+   */
   public static createCSPMonitor(
     endpoint: string = "/csp-violations"
   ): CSPMonitor {
+    console.warn("⚠️ CSPMonitor is deprecated. Use CSPSentinel instead.");
     return new CSPMonitor(endpoint);
   }
 

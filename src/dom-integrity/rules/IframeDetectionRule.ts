@@ -1,4 +1,4 @@
-import type { Rule } from "../types/rules";
+import type { Rule } from "../../core/types/rules";
 
 class IframeDetectionRule implements Rule {
   public readonly rule = "IframeDetection";

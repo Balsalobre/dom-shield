@@ -4,102 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DOM Shield - Demostración</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            min-height: 100vh;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            opacity: 0.9;
-        }
-
-        .demo-section {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 20px 0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        button {
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-            border: none;
-            color: white;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 10px;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .instructions {
-            background: rgba(255, 255, 255, 0.15);
-            border-left: 4px solid #FFD93D;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-        }
-
-        .version-info {
-            text-align: center;
-            margin-top: 30px;
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
-
-        .emoji {
-            font-size: 1.2rem;
-            margin: 0 5px;
-        }
-
-        .button-group {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .button-group h4 {
-            margin: 20px 0 10px 0;
-            color: #FFD93D;
-            font-size: 1.1rem;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -111,22 +16,9 @@
             <p>Prueba todas las funcionalidades organizadas por categoría:</p>
 
             <div class="button-group">
-                <h4>🔧 Funciones Básicas</h4>
-                <button onclick="testBasicFunction()">
-                    Ejecutar Hello <span class="emoji">👋</span>
-                </button>
-            </div>
-
-            <div class="button-group">
                 <h4>🛡️ Seguridad DOM</h4>
-                <button onclick="testSecurityObserver()">
-                    Observador Completo <span class="emoji">🛡️</span>
-                </button>
                 <button onclick="testSpecificRules()">
                     Reglas Específicas <span class="emoji">🔍</span>
-                </button>
-                <button id="live-detection-btn" onclick="toggleLiveDetection()">
-                    Iniciar Vigilancia <span class="emoji">📡</span>
                 </button>
                 <button onclick="addSuspiciousContent()">
                     Añadir Contenido Sospechoso <span class="emoji">⚠️</span>
@@ -135,64 +27,28 @@
 
             <div class="button-group">
                 <h4>🛡️ Monitor CSP</h4>
-                <button onclick="initCSPMonitor()">
-                    Iniciar CSP Monitor <span class="emoji">🔰</span>
-                </button>
-                <button onclick="triggerCSPViolation()">
-                    Provocar Violación <span class="emoji">🚨</span>
-                </button>
                 <button onclick="checkCSPStatus()">
                     Estado CSP <span class="emoji">📊</span>
                 </button>
+                <button onclick="triggerInlineScriptViolation()">
+                    Script Inline <span class="emoji">📜</span>
+                </button>
+                <button onclick="triggerExternalScriptViolation()">
+                    Script Externo <span class="emoji">🌐</span>
+                </button>
+                <button onclick="triggerEvalViolation()">
+                    Eval() <span class="emoji">⚡</span>
+                </button>
+                <button onclick="triggerImageViolation()">
+                    Imagen Externa <span class="emoji">🖼️</span>
+                </button>
+                <button onclick="triggerFetchViolation()">
+                    Fetch/XMLHttpRequest <span class="emoji">📡</span>
+                </button>
+                <button onclick="triggerWebSocketViolation()">
+                    WebSocket <span class="emoji">🔌</span>
+                </button>
             </div>
-
-            <div class="instructions">
-                <h3>📋 Instrucciones:</h3>
-                <ol>
-                    <li>Abre las <strong>DevTools de Chrome</strong> (F12 o Ctrl+Shift+I)</li>
-                    <li>Ve a la pestaña <strong>Console</strong></li>
-                    <li>Haz clic en cualquier botón para probar las funcionalidades</li>
-                    <li>¡Verás los mensajes de DOM Shield en la consola! 🎉</li>
-                </ol>
-                <p><strong>💡 Recomendación CSP:</strong> Primero inicializa el CSP Monitor, luego provoca violaciones para ver el sistema completo en acción.</p>
-            </div>
-        </div>
-
-        <div class="demo-section">
-            <h2>📦 Funcionalidades Implementadas</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                <div>
-                    <h3>🔧 Core</h3>
-                    <ul>
-                        <li>✅ Función básica hello()</li>
-                        <li>🛡️ Observador de seguridad</li>
-                        <li>🔍 Reglas configurables</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>🛡️ Seguridad</h3>
-                    <ul>
-                        <li>⚠️ Scripts sospechosos</li>
-                        <li>📱 Monitoreo de iframes</li>
-                        <li>🎯 Detección específica</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>🛡️ CSP</h3>
-                    <ul>
-                        <li>📊 Monitor en tiempo real</li>
-                        <li>🚨 Detección de violaciones</li>
-                        <li>📤 Reportes automáticos</li>
-                    </ul>
-                </div>
-            </div>
-
-            <h3>🎯 Reglas de Seguridad:</h3>
-            <ul>
-                <li><code>ElementDetectionRule</code>: Detecta elementos por selector (ej: .gemini-box)</li>
-                <li><code>SuspiciousScripts</code>: Analiza dominios sospechosos</li>
-                <li><code>IframeDetection</code>: Lista iframes encontrados</li>
-            </ul>
         </div>
 
         <div class="version-info">
@@ -201,80 +57,103 @@
         </div>
     </div>
 
-    <script src="./dom-shield.umd.js"></script>
 
-    <script>
-        let cspMonitor = null;
+        <script src="./dom-shield.umd.js"></script>
+        <script>
+        const integrityRules = [
+            { type: "element", selector: ".gemini-box" },
+            { type: "iframe" },
+            { type: "live-element", selector: ".gemini-box" },
+            { type: "scripts", domains: ["suspicious-domain.example"] },
+        ];
 
-        function testBasicFunction() {
-            console.log('%c🛡️ DOM Shield Demo - Basic Function', 'color: #4ECDC4; font-size: 18px; font-weight: bold;');
 
-            if (typeof DOMShield !== 'undefined' && DOMShield.hello) {
-                DOMShield.hello();
-                console.log('%c✅ ¡Función hello() ejecutada correctamente!', 'color: #28a745; font-weight: bold;');
-            } else {
-                console.error('❌ Error: DOM Shield no está disponible');
-            }
-        }
+
 
         function addSuspiciousContent() {
-            console.log('%c⚠️ DOM Shield Demo - Adding Suspicious Content', 'color: #DC143C; font-size: 18px; font-weight: bold;');
-
             const suspiciousDiv = document.createElement('div');
             suspiciousDiv.className = 'gemini-box';
             suspiciousDiv.textContent = '⚠️ Contenido sospechoso detectado';
             suspiciousDiv.style.cssText = 'background: #ff4444; color: white; padding: 10px; margin: 10px 0; border-radius: 5px; border: 2px solid #cc0000;';
-
             document.querySelector('.container').appendChild(suspiciousDiv);
 
             const iframe = document.createElement('iframe');
             iframe.src = 'about:blank';
             iframe.style.cssText = 'width: 100px; height: 50px; border: 2px solid yellow; margin: 10px 0;';
             document.querySelector('.container').appendChild(iframe);
-
-            console.log('%c⚠️ Contenido sospechoso añadido - el observador debería detectarlo', 'color: #FFA500; font-weight: bold;');
+            console.log('%c⚠️ Contenido sospechoso añadido', 'color: #FFA500; font-weight: bold;');
         }
 
-        function initCSPMonitor() {
-            console.log('%c🛡️ DOM Shield Demo - CSP Monitor', 'color: #9932CC; font-size: 18px; font-weight: bold;');
 
-            if (typeof DOMShield !== 'undefined' && DOMShield.CSPMonitor) {
-                cspMonitor = new DOMShield.CSPMonitor('/csp-violations');
-                cspMonitor.enable();
-                console.log('%c✅ ¡CSP Monitor iniciado y habilitado!', 'color: #28a745; font-weight: bold;');
-                console.log('📍 Los reportes se enviarán a /csp-violations');
-            } else {
-                console.error('❌ Error: CSPMonitor no está disponible');
+
+        // Funciones para probar diferentes tipos de violaciones CSP
+
+        function triggerInlineScriptViolation() {
+            console.log('%c📜 Probando violación de script inline...', 'color: #FF6B6B; font-weight: bold;');
+            const script = document.createElement('script');
+            script.innerHTML = 'console.log("Script inline - esto debería violar CSP");';
+            document.head.appendChild(script);
+        }
+
+        function triggerExternalScriptViolation() {
+            console.log('%c🌐 Probando violación de script externo...', 'color: #4ECDC4; font-weight: bold;');
+            const externalScript = document.createElement('script');
+            externalScript.src = 'https://suspicious-domain.example/malicious.js';
+            document.head.appendChild(externalScript);
+        }
+
+        function triggerEvalViolation() {
+            console.log('%c⚡ Probando violación de eval()...', 'color: #FFD93D; font-weight: bold;');
+            try {
+                eval('console.log("Eval() - esto debería violar CSP");');
+            } catch (e) {
+                console.log('Eval bloqueado por CSP:', e.message);
             }
         }
 
-        function triggerCSPViolation() {
-            console.log('%c🚨 DOM Shield Demo - Trigger CSP Violation', 'color: #DC143C; font-size: 18px; font-weight: bold;');
+        function triggerImageViolation() {
+            console.log('%c🖼️ Probando violación de imagen externa...', 'color: #FFB6C1; font-weight: bold;');
+            const img = document.createElement('img');
+            img.src = 'https://suspicious-domain.example/malicious-image.jpg';
+            img.alt = 'Imagen externa bloqueada';
+            img.style.cssText = 'width: 100px; height: 100px; border: 2px solid red;';
+            document.querySelector('.container').appendChild(img);
+        }
 
+        function triggerFetchViolation() {
+            console.log('%c📡 Probando violación de fetch/XMLHttpRequest...', 'color: #87CEEB; font-weight: bold;');
+            // Fetch
+            fetch('https://suspicious-domain.example/api/data')
+                .then(response => response.text())
+                .then(data => console.log('Fetch exitoso:', data))
+                .catch(error => console.log('Fetch bloqueado por CSP:', error.message));
+
+            // XMLHttpRequest
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://suspicious-domain.example/api/data');
+            xhr.onload = () => console.log('XHR exitoso:', xhr.responseText);
+            xhr.onerror = () => console.log('XHR bloqueado por CSP');
+            xhr.send();
+        }
+
+        function triggerWebSocketViolation() {
+            console.log('%c🔌 Probando violación de WebSocket...', 'color: #DDA0DD; font-weight: bold;');
             try {
-                const script = document.createElement('script');
-                script.innerHTML = 'console.log("This should trigger CSP violation");';
-                document.head.appendChild(script);
-
-                const externalScript = document.createElement('script');
-                externalScript.src = 'https://suspicious-domain.example/malicious.js';
-                document.head.appendChild(externalScript);
-
-                console.log('%c⚠️ Intentando violaciones CSP... revisa la consola para reportes', 'color: #FFA500; font-weight: bold;');
-            } catch (error) {
-                console.log('%c🚨 CSP bloqueó la ejecución:', error);
+                const ws = new WebSocket('wss://suspicious-domain.example/ws');
+                ws.onopen = () => console.log('WebSocket conectado');
+                ws.onerror = () => console.log('WebSocket bloqueado por CSP');
+            } catch (e) {
+                console.log('WebSocket bloqueado por CSP:', e.message);
             }
         }
 
         function checkCSPStatus() {
-            console.log('%c📊 DOM Shield Demo - CSP Status', 'color: #1E90FF; font-size: 18px; font-weight: bold;');
-
-            if (cspMonitor) {
-                const status = cspMonitor.getStatus();
+            const monitor = DOMShield.getCSPMonitor();
+            if (monitor) {
+                const status = monitor.getMonitoringStatus();
                 console.log('%c📊 Estado del CSP Monitor:', 'color: #1E90FF; font-weight: bold;');
                 console.table(status);
-
-                const queuedReports = cspMonitor.getQueuedReports();
+                const queuedReports = monitor.getQueuedReports();
                 if (queuedReports.length > 0) {
                     console.log('%c📋 Reportes en cola:', 'color: #FFA500; font-weight: bold;');
                     queuedReports.forEach((report, index) => {
@@ -289,49 +168,41 @@
         }
 
         function testSpecificRules() {
-            console.log('%c🧪 Probando reglas específicas...', 'color: #9932CC; font-size: 18px; font-weight: bold;');
-
-            const { RuleEngine, ElementDetectionRule } = DOMShield;
-            const ruleEngine = new RuleEngine();
-
-            // Configura y registra la regla para detectar '.gemini-box'
-            const paranaRule = new ElementDetectionRule('.gemini-box');
-            ruleEngine.register(paranaRule);
-
-            ruleEngine.execute();
+            console.log('%c🔍 Reglas de integridad configuradas:', 'color: #9932CC; font-weight: bold;');
+            console.log(integrityRules);
         }
 
-        let liveRule = null;
+        let liveDetectionActive = false;
         function toggleLiveDetection() {
-            const button = document.getElementById('live-detection-btn');
-            const { LiveElementDetectionRule } = DOMShield;
-
-            if (liveRule) {
-                liveRule.disconnect();
-                liveRule = null;
-                button.innerHTML = 'Iniciar Vigilancia <span class="emoji">📡</span>';
+            if (!liveDetectionActive) {
+                DOMShield.setupIntegrity([
+                    { type: "live-element", selector: ".gemini-box" }
+                ]);
+                liveDetectionActive = true;
+                document.getElementById('live-detection-btn').innerHTML = 'Detener Vigilancia <span class="emoji">�</span>';
+                console.log('%c📡 Vigilancia en tiempo real activada para .gemini-box', 'color: #007bff; font-weight: bold;');
             } else {
-                console.log('%c📡 Iniciando vigilancia en tiempo real para .gemini-box...', 'color: #007bff; font-size: 18px; font-weight: bold;');
-                liveRule = new LiveElementDetectionRule('.gemini-box');
-                liveRule.execute();
-                button.innerHTML = 'Detener Vigilancia <span class="emoji">🛑</span>';
+                // No hay método para detener, solo informativo
+                liveDetectionActive = false;
+                document.getElementById('live-detection-btn').innerHTML = 'Iniciar Vigilancia <span class="emoji">�</span>';
+                console.log('%c🛑 Vigilancia en tiempo real desactivada', 'color: #DC143C; font-weight: bold;');
             }
         }
 
-        window.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('DOMContentLoaded', async function() {
+            await DOMShield.init({
+                csp: { 
+                    endpoint: "/csp-violations", 
+                    enable: true,
+                    maxQueueSize: 100,
+                    runAnalysis: true,
+                    directives: ["default-src", "script-src", "style-src"],
+                    domains: ["trusted.com", "cdn.example.com"]
+                },
+                integrity: integrityRules
+            });
             console.log('%c🌟 ¡Bienvenido a DOM Shield v0.0.1!', 'color: #FF6B6B; font-size: 20px; font-weight: bold;');
-            console.log('%c🛡️ Sistema completo de seguridad web:', 'color: #4ECDC4; font-size: 16px; font-weight: bold;');
-            console.log('  • ✅ Función básica hello()');
-            console.log('  • 🛡️ Observador de seguridad del DOM');
-            console.log('  • 🔍 Reglas de seguridad configurables');
-            console.log('  • ⚠️ Detección de elementos sospechosos');
-            console.log('  • 🛡️ Monitor CSP con reportes automáticos');
-            console.log('  • 📤 Endpoint /csp-violations para backend');
-            console.log('  • 🐳 Desplegado con Docker + nginx');
-            console.log('');
-            console.log('%c👆 Haz clic en los botones para probar cada funcionalidad', 'color: #FFD93D; font-size: 14px;');
-            console.log('%c💡 Tip: Inicia el CSP Monitor primero, luego provoca violaciones', 'color: #FF6B6B; font-size: 12px;');
         });
-    </script>
+        </script>
 </body>
 </html>

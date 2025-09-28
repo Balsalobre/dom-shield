@@ -1,4 +1,5 @@
-import type { ElementDetectionParams, Rule } from "../types/rules";
+import type { Rule } from "../../core/types/rules";
+import type { ElementDetectionParams } from "../types/dom-integrity-params.types";
 
 class ElementDetectionRule implements Rule<ElementDetectionParams> {
   public readonly rule: string;

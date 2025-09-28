@@ -1,4 +1,5 @@
-import type { LiveElementDetectionParams, Rule } from "../types/rules";
+import type { Rule } from "../../core/types/rules";
+import type { LiveElementDetectionParams } from "../types/dom-integrity-params.types";
 
 class LiveElementDetectionRule implements Rule<LiveElementDetectionParams> {
   public readonly rule: string;
