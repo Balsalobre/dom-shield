@@ -110,12 +110,6 @@
             <h2>🚀 Funcionalidades de DOM Shield</h2>
             <p>Prueba todas las funcionalidades organizadas por categoría:</p>
 
-            <div class="button-group">
-                <h4>🔧 Funciones Básicas</h4>
-                <button onclick="testBasicFunction()">
-                    Ejecutar Hello <span class="emoji">👋</span>
-                </button>
-            </div>
 
             <div class="button-group">
                 <h4>🛡️ Seguridad DOM</h4>
@@ -161,7 +155,6 @@
                 <div>
                     <h3>🔧 Core</h3>
                     <ul>
-                        <li>✅ Función básica hello()</li>
                         <li>🛡️ Observador de seguridad</li>
                         <li>🔍 Reglas configurables</li>
                     </ul>
@@ -203,14 +196,20 @@
     <script>
         let cspMonitor = null;
 
-        function testBasicFunction() {
-            console.log('%c🛡️ DOM Shield Demo - Basic Function', 'color: #4ECDC4; font-size: 18px; font-weight: bold;');
-
-            if (typeof DOMShield !== 'undefined' && DOMShield.hello) {
-                DOMShield.hello();
-                console.log('%c✅ ¡Función hello() ejecutada correctamente!', 'color: #28a745; font-weight: bold;');
+        // Funciones que usan la librería DOMShield
+        function testSecurityObserver() {
+            if (typeof DOMShield !== 'undefined' && DOMShield.testSecurityObserver) {
+                DOMShield.testSecurityObserver();
             } else {
-                console.error('❌ Error: DOM Shield no está disponible');
+                console.error('❌ Error: DOMShield.testSecurityObserver no está disponible');
+            }
+        }
+
+        function testSpecificRules() {
+            if (typeof DOMShield !== 'undefined' && DOMShield.testSpecificRules) {
+                DOMShield.testSpecificRules();
+            } else {
+                console.error('❌ Error: DOMShield.testSpecificRules no está disponible');
             }
         }
 
@@ -288,7 +287,6 @@
         window.addEventListener('DOMContentLoaded', function() {
             console.log('%c🌟 ¡Bienvenido a DOM Shield v0.0.1!', 'color: #FF6B6B; font-size: 20px; font-weight: bold;');
             console.log('%c🛡️ Sistema completo de seguridad web:', 'color: #4ECDC4; font-size: 16px; font-weight: bold;');
-            console.log('  • ✅ Función básica hello()');
             console.log('  • 🛡️ Observador de seguridad del DOM');
             console.log('  • 🔍 Reglas de seguridad configurables');
             console.log('  • ⚠️ Detección de elementos sospechosos');
